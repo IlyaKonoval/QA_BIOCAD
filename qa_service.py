@@ -1,4 +1,4 @@
-from transformers import AutoModelForQuestionAnswering, AutoTokenizer
+from transformers import BertForQuestionAnswering, BertTokenizer, BertConfig
 import torch
 import argparse
 
@@ -6,10 +6,23 @@ MODEL_NAME = "konoval03/rubert_qa_model"
 
 
 def load_model():
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
-    model = AutoModelForQuestionAnswering.from_pretrained(MODEL_NAME)
+    """Загрузка модели с использованием конкретных классов BERT"""
+    print(f"Загрузка токенизатора из {MODEL_NAME}...")
+    tokenizer = BertTokenizer.from_pretrained(MODEL_NAME)
+
+    print(f"Загрузка конфигурации модели из {MODEL_NAME}...")
+    config = BertConfig.from_pretrained(MODEL_NAME)
+
+    print(f"Загрузка модели из {MODEL_NAME}...")
+    model = BertForQuestionAnswering.from_pretrained(
+        MODEL_NAME,
+        config=config
+    )
+
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    print(f"Перемещение модели на устройство: {device}")
     model = model.to(device)
+
     return model, tokenizer, device
 
 
