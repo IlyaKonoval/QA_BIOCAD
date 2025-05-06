@@ -1,5 +1,5 @@
-streamlit==1.28.0
+streamlit==1.37.0
 torch>=1.13.0
-transformers==4.35.0
+transformers==4.50.0
 huggingface-hub>=0.16.0
 numpy>=1.22.0
